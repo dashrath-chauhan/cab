@@ -30,7 +30,7 @@ java -jar target/cab-0.0.1-SNAPSHOT-shaded.jar
 
 These endpoints allow you to handle user regisration, find cars in 1KM radius, block a car, and release a car.
 
-### /user/register
+### 1. /user/register
 `Description: User registration.`
 
 **Request**<br/>
@@ -70,8 +70,8 @@ POST http://localhost:8080/cab/webapi/user/register
     "password": "user2"
 }
 ```
-### /user/{email_id}
-`Description: Registered user email id.`
+### 2. /user/{email_id}
+`Description: Registered user email id.`<br/>
 **Request**<br/>
 `Type: String`
 ```
@@ -95,8 +95,8 @@ http://localhost:8080/cab/webapi/user/user1@email.com
     "password": "user1"
 }
 ```
-### /car/locate-cars
-`Description: Find all the available cars for user within 1KM radius.`
+### 3. /car/locate-cars
+`Description: Find all the available cars for user within 1KM radius.`<br/>
 **Request**<br/>
 `ContentType: application/json`<br/>
 `Request object: User Entity - Required. However all the parameters in object are not mandatory.`<br/>
@@ -185,7 +185,7 @@ or
 ]
 ```
 
-### /transact/block-car
+### 4. /transact/block-car
 `Description: This api can be used after using locate cars api to select car and block that for particular user.`
 
 **Request**<br/>
@@ -284,7 +284,7 @@ or
 }
 ```
 
-### /transact/user-transaction
+### 5. /transact/user-transaction
 `Description: This api find the active transaction(not paid) of user since one user can block one car at a time in real scenario this will always fetch single result.`
 
 **Request**<br/>
@@ -360,7 +360,7 @@ or
 }
 ```
 
-### /transact/user-transaction
+### 6. /transact/user-transaction
 `Description: This api find the active transaction of user and ends it. There are multiple operation in this api.`<br/>
 `1. Find active transaction of user.`<br/>
 `2. Calculate time difference in minute. Since I have defined rate calucation for trip per minute.`<br/>
