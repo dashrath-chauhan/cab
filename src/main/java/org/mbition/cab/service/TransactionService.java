@@ -63,11 +63,11 @@ public class TransactionService {
 	public Transaction getUserTransaction(User user) {
 		Session session = MyResource.getSessionFactory().openSession();
 		Transaction transaction = null;
-		
+		User nuser = userService.validateAndReturnUser(user);
 		try {
 			transaction = (Transaction) session
 				    	.createQuery("FROM Transaction t WHERE t.user.id = :user and t.paid = :paid")
-				    	.setParameter("user", user.getId())
+				    	.setParameter("user", nuser.getId())
 				    	.setParameter("paid", Boolean.FALSE)
 				    	.getSingleResult();
 		} catch(HibernateException e) {
