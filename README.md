@@ -1,7 +1,6 @@
 # cab
 
 Car Booking System
-* Please look at Mbition Coding Task - Soluion.pdf in the directory for the solution approach.
 
 Setup
 -----
