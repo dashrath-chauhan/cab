@@ -17,7 +17,7 @@ import org.mbition.cab.model.User;
 public class CarService {
 	
 	LocationService locationService = new LocationService();
-	User userService = new UserService();
+	UserService userService = new UserService();
 
 	public List<Car> findCars(User user) {
 		Session session = MyResource.getSessionFactory().openSession();
@@ -40,9 +40,9 @@ public class CarService {
 
 	private List<Car> filterCars(User user, List<Car> cars) {
 		List<Car> filteredCars = new ArrayList<>();
-		user = userService.validateAndReturnUser(user);
+		User vUser = userService.validateAndReturnUser(user);
 		cars.stream().forEach(car -> {
-			double dist = distance(user,car);
+			double dist = distance(vUser,car);
 			
 			if(dist <= new Double(1)) {
 				filteredCars.add(car);

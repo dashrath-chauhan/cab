@@ -30,13 +30,18 @@ java -jar target/cab-0.0.1-SNAPSHOT-shaded.jar
 
 These endpoints allow you to handle user regisration, find cars in KM radius, block a car, and release a car.
 
-### GET http://localhost:8080/cab/webapi/user/user1@email.com
-Get details of registered user by email_id.
+### /user/{email_id}
+`Description:` `Registered user email id.`
 
-**Parameters**
-`email_id` - required: string - Registered user email id.                                                                     |
+**Request**
+`Type:` `String`
+
+```
+http://localhost:8080/cab/webapi/user/user1@email.com
+```
 
 **Response**
+`Type:` `User Entity`
 
 ```
 {
@@ -53,3 +58,92 @@ Get details of registered user by email_id.
     "password": "user1"
 }
 ```
+
+### /car/locate-cars
+`Description:` `Find all the available cars for user within 1KM radius.`
+
+**Request**
+`Type:` `JSON: Required. However all the parameters in user object arent mandatory. Only email in the request object will also suffice.`
+```
+http://localhost:8080/cab/webapi/car/locate-cars
+```
+With entire request object
+```
+{
+    "balance": 49770,
+    "email": "user1@email.com",
+    "id": 1,
+    "location": {
+        "id": 3,
+        "latitude": 22.708617,
+        "longitude": 73.11564,
+        "name": "Anand"
+    },
+    "name": "User One",
+    "password": "user1"
+}
+or with email id only
+{
+    "email": "user1@email.com",
+}
+
+```
+**Response**
+`Type:` `Array of car entities.`
+```
+[
+    {
+        "available": true,
+        "id": 1,
+        "location": {
+            "id": 1,
+            "latitude": 22.698637,
+            "longitude": 73.115573,
+            "name": "Ahmedabad"
+        },
+        "model": "Civic",
+        "name": "Honda",
+        "rentPerMin": 80
+    },
+    {
+        "available": true,
+        "id": 5,
+        "location": {
+            "id": 5,
+            "latitude": 22.701072,
+            "longitude": 73.111302,
+            "name": "Bhuj"
+        },
+        "model": "CLA",
+        "name": "Mercedez-Benz",
+        "rentPerMin": 220
+    },
+    {
+        "available": true,
+        "id": 7,
+        "location": {
+            "id": 7,
+            "latitude": 22.703652,
+            "longitude": 73.115334,
+            "name": "Rajkot"
+        },
+        "model": "A1",
+        "name": "Audi",
+        "rentPerMin": 230
+    },
+    {
+        "available": true,
+        "id": 8,
+        "location": {
+            "id": 8,
+            "latitude": 22.695707,
+            "longitude": 73.119411,
+            "name": "Umreth"
+        },
+        "model": "A1",
+        "name": "Audi",
+        "rentPerMin": 260
+    }
+]
+```
+
