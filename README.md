@@ -70,22 +70,16 @@ POST http://localhost:8080/cab/webapi/user/register
     "password": "user2"
 }
 ```
-
-
 ### /user/{email_id}
 `Description: Registered user email id.`
-
 **Request**<br/>
 `Type: String`
-
 ```
 http://localhost:8080/cab/webapi/user/user1@email.com
 ```
-
 **Response**<br/>
-`ContentType: application/json`
-`Response object: User Entity`
-
+`ContentType: application/json`<br/>
+`Response object: User Entity`<br/>
 ```
 {
     "balance": 49770,
@@ -101,18 +95,15 @@ http://localhost:8080/cab/webapi/user/user1@email.com
     "password": "user1"
 }
 ```
-
 ### /car/locate-cars
 `Description: Find all the available cars for user within 1KM radius.`
-
 **Request**<br/>
 `ContentType: application/json`<br/>
-`Request object: User Entity - Required. However all the parameters in object are not mandatory. Only email will also suffice.`<br/>
+`Request object: User Entity - Required. However all the parameters in object are not mandatory.`<br/>
 `Mandatory params in object: email`<br/>
 ```
 http://localhost:8080/cab/webapi/car/locate-cars
 ```
-With entire request object
 ```
 {
     "balance": 49770,
@@ -127,17 +118,16 @@ With entire request object
     "name": "User One",
     "password": "user1"
 }
-'''
-or with email id only
-'''
+```
+or
+```
 {
-    "email": "user1@email.com",
+    "email": "user1@email.com"
 }
-
 ```
 **Response**<br/>
 `ContentType: application/json`<br/>
-`Response object: Array of car entities.`
+`Response object: Array of car entities.`<br/>
 ```
 [
     {
@@ -328,9 +318,8 @@ or
 ```
 
 **Response**<br/>
-`ContentType: application/json`
+`ContentType: application/json`<br/>
 `Response object: Transaction Entity`
-
 ```
 {
     "car": {
