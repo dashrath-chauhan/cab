@@ -31,11 +31,11 @@ java -jar target/cab-0.0.1-SNAPSHOT-shaded.jar
 These endpoints allow you to handle user regisration, find cars in 1KM radius, block a car, and release a car.
 
 ### /user/register
-`Description: Registered user email id.`
+`Description: User registration.`
 
 **Request**<br/>
-`ContentType: application/json`
-`Response object: User Entity`
+`ContentType: application/json`<br/>
+`Request object: User Entity`<br/>
 ```
 POST http://localhost:8080/cab/webapi/user/register
 ```
@@ -52,8 +52,8 @@ POST http://localhost:8080/cab/webapi/user/register
 ```
 
 **Response**<br/>
-`ContentType: application/json`
-`Response object: User Entity`
+`ContentType: application/json`<br/>
+`Response object: User Entity`<br/>
 
 ```
 {
@@ -105,10 +105,10 @@ http://localhost:8080/cab/webapi/user/user1@email.com
 ### /car/locate-cars
 `Description: Find all the available cars for user within 1KM radius.`
 
-**Request**
-`ContentType: application/json`
-`Request object: User Entity - Required. However all the parameters in object are not mandatory. Only email will also suffice.`
-`Mandatory params in object: <strong>email<strong> in User object.`
+**Request**<br/>
+`ContentType: application/json`<br/>
+`Request object: User Entity - Required. However all the parameters in object are not mandatory. Only email will also suffice.`<br/>
+`Mandatory params in object: email`<br/>
 ```
 http://localhost:8080/cab/webapi/car/locate-cars
 ```
@@ -135,8 +135,8 @@ or with email id only
 }
 
 ```
-**Response**
-`ContentType: application/json`
+**Response**<br/>
+`ContentType: application/json`<br/>
 `Response object: Array of car entities.`
 ```
 [
@@ -199,9 +199,9 @@ or with email id only
 `Description: This api can be used after using locate cars api to select car and block that for particular user.`
 
 **Request**<br/>
-`ContentType: application/json`
-`Response object: Block Info object - Wraps User entity and Car entity as single object.`
-`Mandatory params in object: <strong>email and destination<strong> in User object and <strong>id</strong> in Car object.`
+`ContentType: application/json`<br/>
+`Request object: Block Info object - Wraps User entity and Car entity as single object.`<br/>
+`Mandatory params in object: User: email, destination. Car: id`
 
 ```
 POST http://localhost:8080/cab/webapi/transact/block-car
@@ -251,8 +251,8 @@ or
 ```
 
 **Response**<br/>
-`ContentType: application/json`
-`Response object: Transaction Entity`
+`ContentType: application/json`<br/>
+`Response object: Transaction Entity`<br/>
 
 ```
 {
@@ -298,9 +298,9 @@ or
 `Description: This api find the active transaction(not paid) of user since one user can block one car at a time in real scenario this will always fetch single result.`
 
 **Request**<br/>
-`ContentType: application/json`
-`Request object: User entity object.`
-`Mandatory params in object: <strong>email<strong> in User object.`
+`ContentType: application/json`<br/>
+`Request object: User entity objecj.`<br/>
+`Mandatory params in object: email`<br/>
 
 ```
 POST http://localhost:8080/cab/webapi/transact/user-transaction
@@ -372,16 +372,16 @@ or
 ```
 
 ### /transact/user-transaction
-`Description: This api find the active transaction of user and ends it. There are multiple operation in this api.`
-`1. Find active transaction of user.`
-`1. Calculate time difference in minute. Since I have defined rate calucation for trip per minute.`
-`1. Calculte and pay rent from users balance.`
-`1. Release and make car available for booking, change the location of car and user to new location. Since at the end of the trip both user and car will be at the destination which user had selected.`
+`Description: This api find the active transaction of user and ends it. There are multiple operation in this api.`<br/>
+`1. Find active transaction of user.`<br/>
+`2. Calculate time difference in minute. Since I have defined rate calucation for trip per minute.`<br/>
+`3. Calculte and pay rent from users balance.`<br/>
+`4. Release and make car available for booking, change the location of car and user to new location. Since at the end of the trip both user and car will be at the destination which user had selected.`<br/>
 
 **Request**<br/>
-`ContentType: application/json`
-`Request object: User entity object.`
-`Mandatory params in object: <strong>email<strong> in User object.`
+`ContentType: application/json`<br/>
+`Request object: User entity object.`<br/>
+`Mandatory params in object: email in User object.`<br/>
 
 ```
 POST http://localhost:8080/cab/webapi/transact/user-transaction
@@ -409,8 +409,8 @@ or
 ```
 
 **Response**<br/>
-`ContentType: application/json`
-`Response object: Transaction Entity`
+`ContentType: application/json`<br/>
+`Response object: Transaction Entity`<br/>
 
 ```
 {
