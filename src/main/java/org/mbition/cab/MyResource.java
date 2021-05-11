@@ -2,35 +2,42 @@ package org.mbition.cab;
 
 import java.net.URI;
 import java.io.IOException;
-import javax.ws.rs.core.UriBuilder;
-import org.eclipse.jetty.server.Server;
-import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-
-
+import java.io.File;
 import javax.inject.Singleton;
-import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+import java.io.PrintWriter;
+import org.mbition.cab.controller.UserController;
+
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.servlet.ServletContainer;
-import org.apache.catalina.startup.Tomcat;
-import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-@Path("myresource")
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
+import org.apache.catalina.Context;
+
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.init.JerseyServletContainerInitializer;
+
+@Path("/myresource")
 @Singleton
-public class MyResource extends HttpServlet {
+public class MyResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -43,33 +50,7 @@ public class MyResource extends HttpServlet {
     
     public static void main(String[] args) throws Exception {
     	startTomcat();
-    	//startJetty();
-    	startSession();
     }
-    
-    private static void startJetty() throws Exception {
-    	org.eclipse.jetty.server.Server server = new Server(8080);
-
-        ServletContextHandler servletContextHandler = new ServletContextHandler();
-
-        servletContextHandler.setContextPath("/");
-        server.setHandler(servletContextHandler);
-
-        ServletHolder servletHolder = servletContextHandler.addServlet(ServletContainer.class, "/webapi/*");
-        servletHolder.setInitOrder(0);
-        servletHolder.setInitParameter("jersey.config.server.provider.packages","org.mbition.cab.controller");
-
-        try {
-            server.start();
-            server.join();
-        } catch (Exception ex) {
-            System.exit(1);
-        }
-
-        finally {
-            server.destroy();
-        }
-	}
 
 	public static void startSession() {
     	if (sessionFactory == null) {
@@ -100,20 +81,42 @@ public class MyResource extends HttpServlet {
     }
     
     static void startTomcat() throws Exception {
+		Tomcat tomcat = new Tomcat();
 
         String port = System.getenv("PORT");
-        System.setProperty("java.security.egd", "file:///dev/urandom");
+        
         if (port == null || port.isEmpty()) {
             port = "8080";
         }
 
-        String contextPath = "";
+		String webappDirLocation = "src/main/webapp/";
+        String contextPath = "/webapi/";
         String appBase = ".";
+		String docBase = new File(appBase).getAbsolutePath();
 
-        Tomcat tomcat = new Tomcat();
+		Context context = tomcat.addContext(contextPath, docBase);
+		tomcat.addWebapp("/cab", new File(webappDirLocation).getAbsolutePath());
+
+		// Define and bind web.xml file location.
+		File configFile = new File(webappDirLocation + "WEB-INF/web.xml");
+		context.setConfigFile(configFile.toURI().toURL());	
+
         tomcat.setPort(Integer.valueOf(port));
         tomcat.getHost().setAppBase(appBase);
         tomcat.start();
-        //tomcat.getServer().await();
+		//create session factory and load initial database
+		startSession();
+        tomcat.getServer().await();
     }
+
 }
+
+
+
+
+
+
+
+
+
+

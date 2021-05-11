@@ -15,9 +15,9 @@
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
-    <servlet>
+	<!--    <servlet>
         <servlet-name>My Resource</servlet-name>
         <servlet-class>org.mbition.cab.MyResource</servlet-class>
         <load-on-startup>1</load-on-startup>
-    </servlet>
+    </servlet> -->
 </web-app>
